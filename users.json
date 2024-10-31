@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "uid": "1bac4804",
+      "email": "example@email.com",
+      "password": "783ff17062874ca617185f048177c4ccc1719e098d147a0f6b76a8f80b995662b48807bd09fbc4772db634a011dd60067e7a408aa76a7dc990a7b53ca8dec4b8",
+      "salt": "9d886bf30dcb453b3f5459ff1f47b55a",
+      "createdAt": "2024-10-31T10:11:23.042Z"
+    },
+    {
+      "uid": "e681a97d",
+      "email": "hgr@email.com",
+      "password": "2e8068c726905e886261683d92da1a68200b9a928451a52f6c57f32105efa75fb5829207fd008a51cd2193d6ad4e605366f0c2ab1bd1e19a2a604f3d3afb50ae",
+      "salt": "333eade4656f563fe92bdabf91cd95c6",
+      "createdAt": "2024-10-31T10:12:59.485Z"
+    },
+    {
+      "uid": "30fa41d0",
+      "email": "hgr@hgr.com",
+      "password": "74ca38919a51eded29aa89d76f1f992850e99bca83d3668ac1ba56fc7bb32a140eccbe4c2adb0ce88f15d03221edaf70f4aec7edcc8e5804d74d176afd03ea23",
+      "salt": "2ac52dd6b70526d00dfbfe3cd26d256c",
+      "createdAt": "2024-10-31T10:14:21.038Z"
+    }
+  ]
+}

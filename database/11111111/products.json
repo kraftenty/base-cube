@@ -1,0 +1,47 @@
+{
+  "schema": [
+    {
+      "name": "id",
+      "autoinc": true,
+      "notempty": true,
+      "unique": true
+    },
+    {
+      "name": "name",
+      "autoinc": false,
+      "default": "defaultname",
+      "notempty": true,
+      "unique": false
+    },
+    {
+      "name": "price",
+      "autoinc": false,
+      "default": 0,
+      "notempty": true,
+      "unique": false
+    }
+  ],
+  "autovalue": 6,
+  "data": [
+    {
+      "name": "수정된 상품",
+      "price": 2000,
+      "id": 1
+    },
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 2
+    },
+    {
+      "name": "edited",
+      "price": 3000,
+      "id": 3
+    },
+    {
+      "name": "edited",
+      "price": 3000,
+      "id": 4
+    }
+  ]
+}
