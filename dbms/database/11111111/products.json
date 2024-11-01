@@ -1,0 +1,55 @@
+{
+  "schema": [
+    {
+      "name": "id",
+      "primary": true,
+      "autoinc": true,
+      "notempty": true
+    },
+    {
+      "name": "name",
+      "primary": false,
+      "autoinc": false,
+      "notempty": true
+    },
+    {
+      "name": "price",
+      "primary": false,
+      "autoinc": false,
+      "notempty": true
+    }
+  ],
+  "autoincvalue": 7,
+  "data": [
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 1
+    },
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 2
+    },
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 3
+    },
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 4
+    },
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 5
+    },
+    {
+      "name": "테스트 상품",
+      "price": 1000,
+      "id": 6
+    }
+  ]
+}
