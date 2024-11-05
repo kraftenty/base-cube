@@ -1,0 +1,32 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/account/payment">Payment</a>
+        </p>
+        <p>
+            <a href="/account/updateinfo">Update Information</a>
+        </p>
+        <p>
+            <a href="/account/delete">Delete Account</a>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3>Update Password</h3>
+        <!-- 올드 비밀번호, 뉴 비밀번호, 뉴 비밀번호 확인, 제출 버튼 -->
+        <form action="/account/updateinfo" method="post">
+            <label for="oldPassword">Old Password</label>
+            <input type="text" id="oldPassword" name="oldPassword" required class="input-field">
+            <br>
+            <label for="newPassword">New Password</label>
+            <input type="text" id="newPassword" name="newPassword" required class="input-field">
+            <br>
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <input type="text" id="confirmNewPassword" name="confirmNewPassword" required class="input-field">
+            <br>
+            <button type="submit" class="button">Submit</button>
+        </form>
+        <p class="message"><%= message %></p>
+    </main>
+</div>

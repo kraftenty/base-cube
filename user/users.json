@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "uid": "c07f5d23",
+      "email": "hgr@a.com",
+      "password": "70c9244d3b2e8b1593fa691f2e6ac21874b5052996f95844ec2791654474243a449cc12ff6f9d06f16f683a3e7b03dfc8e81caf38dffb3fa4655f179926cc1c7",
+      "salt": "51c35259cba1f1118c058d5bc17bf83a",
+      "createdAt": "2024-11-05T14:30:09.154Z"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/account/payment">Payment</a>
+        </p>
+        <p>
+            <a href="/account/updateinfo">Update Information</a>
+        </p>
+        <p>
+            <a href="/account/delete">Delete Account</a>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3>Delete Account</h3>
+        <!--yes or no 창 띄워서 삭제 여부 확인-->
+        <script>
+            function confirmDelete() {
+                if (confirm('Are you sure you want to delete your account?')) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/account/delete';
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            }
+        </script>
+        <button onclick="confirmDelete()" class="button">Delete Account</button>
+    </main>
+</div>

@@ -1,0 +1,14 @@
+<main class="main">
+    <div class="login-container">
+        <img src="/img/logo.png" alt="logo" class="logo" width="300px">
+        <form action="/login" method="post" class="login-form">
+            <input type="email" name="email" placeholder="email" class="input-field" style="width: 300px;">
+            <input type="password" name="password" placeholder="password" class="input-field" style="width: 300px;">
+            <div class="button-container">
+                <button type="button" class="button" style="width: 150px;" onclick="window.location.href='/signup'">Sign up</button>
+                <button type="submit" class="button" style="width: 150px;">Login</button>
+            </div>
+        </form>
+        <p class="message"><%= message %></p>
+    </div>
+</main>
