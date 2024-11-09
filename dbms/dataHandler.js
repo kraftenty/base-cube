@@ -1,19 +1,19 @@
-const accessor = require('./accessor');
+const dataAccessor = require('./dataAccessor');
 
 
 function getResultFromManager(uid, query) {
     if (query.method === 'select') {
         if (query.where === undefined) {
-            return accessor.selectRecordAll(uid, query);
+            return dataAccessor.selectRecordAll(uid, query);
         } else {
-            return accessor.selectRecordWhere(uid, query);
+            return dataAccessor.selectRecordWhere(uid, query);
         }
     } else if (query.method === 'insert') {
-        return accessor.insertRecord(uid, query);
+        return dataAccessor.insertRecord(uid, query);
     } else if (query.method === 'update') {
-        return accessor.updateRecord(uid, query);
+        return dataAccessor.updateRecord(uid, query);
     } else if (query.method === 'delete') {
-        return accessor.deleteRecord(query);
+        return dataAccessor.deleteRecord(query);
     }
 }
 

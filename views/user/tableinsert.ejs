@@ -1,0 +1,45 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/database">Overview</a>
+        </p>
+        <p>
+            <a href="/database/create">Create Table</a>
+        </p>
+        <hr>
+        <p>
+            Tables
+            <% tables.forEach(table => { %>
+                <br><a href="/database/table/<%= table %>"> - <%= table %></a>
+            <% }); %>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3>Insert data to <%= table %></h3>
+        <hr>
+        <form action="/database/table/<%= table %>/insert" method="post">
+            <% schema.forEach(field => { %>
+                <div class="form-group">
+                    <label for="<%= field.name %>"><%= field.name %>:</label>
+                    <% if(field.primary && field.autoinc) { %>
+                        <input type="text" id="<%= field.name %>" name="<%= field.name %>" class="input-field" disabled placeholder="auto increment" style="color: #999;">
+                    <% } else if(field.autoinc) { %>
+                        <input type="text" id="<%= field.name %>" name="<%= field.name %>" class="input-field" disabled placeholder="auto increment" style="color: #999;">
+                    <% } else if(field.primary || field.notempty) { %>
+                        <input type="text" id="<%= field.name %>" name="<%= field.name %>" class="input-field" required>
+                    <% } else { %>
+                        <input type="text" id="<%= field.name %>" name="<%= field.name %>" class="input-field">
+                    <% } %>
+                </div>
+            <% }); %>
+            <br>
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="button">Insert</button>
+                <button type="button" class="button" onclick="location.href='/database/table/<%= table %>'">Back</button>
+            </div>
+        </form>
+
+    </main>
+</div>

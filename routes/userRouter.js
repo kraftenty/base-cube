@@ -2,6 +2,15 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
 const { getUserByEmailAndPassword, getEmailByUid, addUser, deleteUser, changePassword } = require('../user/userHandler');
+const { getAllTablesByUid, createTableForUser, getTableDataForUser, getTableSchemaForUser } = require('../dbms/dataService');
+
+// 로그인 여부 확인 미들웨어
+const checkLogin = (req, res, next) => {
+    if (!req.session.uid) {
+        return res.redirect('/login');
+    }
+    next();
+};
 
 router.route('/login')
     .get(asyncHandler(async (req, res) => {
@@ -97,7 +106,7 @@ router.route('/account/delete')
 
 
 router.route(['/'])
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/about', {
             layout: '../views/layouts/userLayout',
             title: 'Home'
@@ -105,7 +114,7 @@ router.route(['/'])
     }));
 
 router.route('/help')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/help', {
             layout: '../views/layouts/userLayout',
             title: 'Help'
@@ -113,7 +122,7 @@ router.route('/help')
     }));
 
 router.route('/contact')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/contact', {
             layout: '../views/layouts/userLayout',
             title: 'Contact'
@@ -123,18 +132,55 @@ router.route('/contact')
 // 데이터베이스 페이지
 
 router.route('/database')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/database', {
             layout: '../views/layouts/userLayout',
-            title: 'Database'
+            title: 'Database',
+            tables: getAllTablesByUid(req.session.uid)
         });
+    }));
+
+router.route('/database/table/:table')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        res.render('./user/table', {
+            layout: '../views/layouts/userLayout',
+            title: req.params.table,
+            tables: getAllTablesByUid(req.session.uid),
+            data: getTableDataForUser(req.session.uid, req.params.table),
+            schema: getTableSchemaForUser(req.session.uid, req.params.table)
+        });
+    }));
+
+router.route('/database/table/:table/insert')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        res.render('./user/tableinsert', {
+            layout: '../views/layouts/userLayout',
+            title: 'Insert Data',
+            tables: getAllTablesByUid(req.session.uid),
+            schema: getTableSchemaForUser(req.session.uid, req.params.table),
+            table: req.params.table,
+        });
+    }));
+
+router.route('/database/create')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        res.render('./user/createtable', {
+            layout: '../views/layouts/userLayout',
+            title: 'Create Table',
+            tables: getAllTablesByUid(req.session.uid)
+        });
+    }))
+    .post(checkLogin, asyncHandler(async (req, res) => {
+        console.log(req.body);
+        await createTableForUser(req.session.uid, req.body);
+        res.redirect('/database');
     }));
 
 
 // 엔드포인트 페이지
 
 router.route('/endpoint')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/endpoint', {
             layout: '../views/layouts/userLayout',
             title: 'Endpoint'
@@ -144,7 +190,7 @@ router.route('/endpoint')
 // 어카운트 페이지
 
 router.route('/account/payment')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/payment', {
             layout: '../views/layouts/userLayout',
             title: 'Payment'
@@ -152,14 +198,14 @@ router.route('/account/payment')
     }));
 
 router.route('/account/updateinfo')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/updateinfo', {
             layout: '../views/layouts/userLayout',
             title: 'Update Information',
             message: ''
         });
     }))
-    .post(asyncHandler(async (req, res) => {
+    .post(checkLogin, asyncHandler(async (req, res) => {
         const { uid } = req.session;
         const { oldPassword, newPassword, confirmNewPassword } = req.body;
         if (newPassword !== confirmNewPassword) {
@@ -185,7 +231,7 @@ router.route('/account/updateinfo')
     }));
 
 router.route('/account/delete')
-    .get(asyncHandler(async (req, res) => {
+    .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/deleteaccount', {
             layout: '../views/layouts/userLayout',
             title: 'Delete Account'

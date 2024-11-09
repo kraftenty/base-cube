@@ -1,4 +1,4 @@
-const { createTable, insertRecord, selectRecordAll, selectRecordWhere, updateRecord, deleteRecord } = require('./accessor');
+const { createTable, insertRecord, selectRecordAll, selectRecordWhere, updateRecord, deleteRecord } = require('./dataAccessor');
 
 /**
  * query = {

@@ -1,0 +1,89 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/database">Overview</a>
+        </p>
+        <p>
+            <a href="/database/create">Create Table</a>
+        </p>
+        <hr>
+        <p>
+            Tables
+            <% tables.forEach(table => { %>
+                <br><a href="/database/table/<%= table %>"> - <%= table %></a>
+            <% }); %>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3>Create Table</h3>
+        <form action="/database/create" method="post">
+            <div class="form-group" style="display: flex; gap: 10px; align-items: center;">
+                <label for="tableName">Table Name:</label>
+                <input type="text" id="tableName" name="tableName" class="input-field" required>
+                <button type="submit" class="button">Create Table</button>
+            </div>
+            <hr>            
+
+            <div id="columns">
+                <div class="column">
+                    <h4>Column 1</h4>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="schema[0][name]" class="input-field" required>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="schema[0][primary]" id="primary0" checked disabled>
+                        <input type="hidden" name="schema[0][primary]" value="true">
+                        <label for="primary0">Primary Key</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="schema[0][autoinc]" id="autoinc0" value="true">
+                        <label for="autoinc0">Auto Increment</label>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button type="button" class="button btn-delete" onclick="deleteColumn(this)" disabled>Delete</button>
+                        <button type="button" class="button" onclick="addColumn()">Add Column</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            let columnCount = 1;
+
+            function addColumn() {
+                columnCount++;
+                const columnsDiv = document.getElementById('columns');
+                const newColumn = document.createElement('div');
+                newColumn.className = 'column';
+                newColumn.innerHTML = `
+                    <h4>Column ${columnCount}</h4>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="schema[${columnCount-1}][name]" class="input-field" required>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="schema[${columnCount-1}][autoinc]" id="autoinc${columnCount-1}" value="true">
+                        <label for="autoinc${columnCount-1}">Auto Increment</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="schema[${columnCount-1}][notempty]" id="notempty${columnCount-1}" value="true">
+                        <label for="notempty${columnCount-1}">Not Empty</label>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button type="button" class="button btn-delete" onclick="deleteColumn(this)">Delete</button>
+                        <button type="button" class="button" onclick="addColumn()">Add Column</button>
+                    </div>
+                `;
+                columnsDiv.appendChild(newColumn);
+            }
+
+            function deleteColumn(button) {
+                button.parentElement.parentElement.remove();
+                columnCount--;
+            }
+        </script>
+    </main>
+</div>

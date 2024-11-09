@@ -1,0 +1,31 @@
+{
+  "schema": [
+    {
+      "name": "id",
+      "primary": true,
+      "autoinc": true
+    },
+    {
+      "name": "name",
+      "notempty": true
+    },
+    {
+      "name": "price",
+      "autoinc": false,
+      "notempty": true
+    }
+  ],
+  "autoincvalue": 1,
+  "data": [
+    {
+      "id": 1,
+      "name": "item1",
+      "price": 100
+    },
+    {
+      "id": 2,
+      "name": "item2",
+      "price": 200
+    }
+  ]
+}

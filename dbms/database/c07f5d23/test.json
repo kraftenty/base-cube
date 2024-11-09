@@ -1,0 +1,11 @@
+{
+  "schema": [
+    {
+      "name": "id",
+      "primary": true,
+      "autoinc": true
+    }
+  ],
+  "autoincvalue": 1,
+  "data": []
+}

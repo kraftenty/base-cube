@@ -2,11 +2,21 @@
     <aside class="sidebar">
         <!-- 사이드바 내용 -->
         <p>
+            <a href="/database">Overview</a>
+        </p>
+        <p>
             <a href="/database/create">Create Table</a>
+        </p>
+        <hr>
+        <p>
+            Tables
+            <% tables.forEach(table => { %>
+                <br><a href="/database/table/<%= table %>"> - <%= table %></a>
+            <% }); %>
         </p>
     </aside>
     
     <main class="main">
-        <p>database</p>
+        <p>database overview. db개수 등</p>
     </main>
 </div>

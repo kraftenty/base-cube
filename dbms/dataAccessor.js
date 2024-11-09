@@ -1,25 +1,28 @@
 const fs = require('fs');
 
+function getDatabasePath(uid) {
+    return `./dbms/database/${uid}`;
+}
 
-// base 디렉토리 생성
+// database 디렉토리 생성
 function createDatabaseDirectory() {
-    if (fs.existsSync('./database')) {
+    if (fs.existsSync('./dbms/database')) {
         return;
     }
-    fs.mkdirSync('./database');
+    fs.mkdirSync('./dbms/database');
 }
 
 // 유저별 디렉토리 생성
 function createDirectoryForUser(uid) {
-    if (fs.existsSync(`./database/${uid}`)) {
+    if (fs.existsSync(getDatabasePath(uid))) {
         return;
     }
-    fs.mkdirSync(`./database/${uid}`);
+    fs.mkdirSync(getDatabasePath(uid));
 }
 
 // 테이블 생성 및 초기화 함수
 function createTable(uid, tableName, schema) {
-    const filePath = `./database/${uid}/${tableName}.json`;
+    const filePath = `${getDatabasePath(uid)}/${tableName}.json`;
     if (fs.existsSync(filePath)) {
         return;
     }
@@ -70,12 +73,23 @@ function compareRecordByCondition(record, condition) {
     }
 }
 
+// 테이블 스키마 조회
+function selectTableSchema(uid, query) {
+    const { from } = query;
+    const filePath = `${getDatabasePath(uid)}/${from}.json`;
+    if (!fs.existsSync(filePath)) {
+        throw new Error(`${from} 테이블이 존재하지 않습니다.`);
+    }
+    const table = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return table.schema;
+}
+
 
 // 레코드 삽입 함수
 function insertRecord(uid, query) {
     const { from, value } = query;
 
-    const filePath = `./database/${uid}/${from}.json`;
+    const filePath = `${getDatabasePath(uid)}/${from}.json`;
     if (!fs.existsSync(filePath)) {
         throw new Error(`${from} 테이블이 존재하지 않습니다.`);
     }
@@ -134,7 +148,7 @@ function selectRecordAll(uid, query) {
         throw new Error("from 테이블이 정의되지 않았습니다.");
     }
 
-    const filePath = `./database/${uid}/${from}.json`;
+    const filePath = `${getDatabasePath(uid)}/${from}.json`;
     if (!fs.existsSync(filePath)) {
         throw new Error(`${from} 테이블이 존재하지 않습니다.`);
     }
@@ -156,7 +170,7 @@ function selectRecordWhere(uid, query) {
         throw new Error("where 조건이 정의되지 않았습니다.");
     }
 
-    const filePath = `./database/${uid}/${from}.json`;
+    const filePath = `${getDatabasePath(uid)}/${from}.json`;
     if (!fs.existsSync(filePath)) {
         throw new Error(`${from} 테이블이 존재하지 않습니다.`);
     }
@@ -171,7 +185,7 @@ function selectRecordWhere(uid, query) {
 function updateRecord(uid, query) {
     const { from, where, set } = query;
 
-    const filePath = `./database/${uid}/${from}.json`;
+    const filePath = `${getDatabasePath(uid)}/${from}.json`;
     if (!fs.existsSync(filePath)) {
         throw new Error(`${from} 테이블이 존재하지 않습니다.`);
     }
@@ -245,7 +259,7 @@ function deleteRecord(uid, query) {
         throw new Error("where 조건이 정의되지 않았습니다.");
     }
 
-    const filePath = `./database/${uid}/${from}.json`;
+    const filePath = `${getDatabasePath(uid)}/${from}.json`;
     if (!fs.existsSync(filePath)) {
         throw new Error(`${from} 테이블이 존재하지 않습니다.`);
     }
@@ -258,9 +272,14 @@ function deleteRecord(uid, query) {
 
 
 module.exports = {
+    getDatabasePath,
+    createDatabaseDirectory,
+    createDirectoryForUser,
+    createTable,
     insertRecord,
     selectRecordAll,
     selectRecordWhere,
     updateRecord,
-    deleteRecord
+    deleteRecord,
+    selectTableSchema
 }

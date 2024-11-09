@@ -1,0 +1,50 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/database">Overview</a>
+        </p>
+        <p>
+            <a href="/database/create">Create Table</a>
+        </p>
+        <hr>
+        <p>
+            Tables
+            <% tables.forEach(table => { %>
+                <br><a href="/database/table/<%= table %>"> - <%= table %></a>
+            <% }); %>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3><%= title %></h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <button class="button" onclick="location.href='/database/table/<%= title %>/insert'">Insert Data</button>
+            <button class="button" onclick="if(confirm('Are you sure to drop <%= title %> table?')) location.href='/database/table/<%= title %>/delete'">Drop Table</button>
+        </div>
+        <hr>
+        <table class="data-table" border="1">
+            <thead>
+                <tr>
+                    <% schema.forEach(field => { %>
+                        <th>
+                            <%= field.name %>
+                            <% if(field.primary) { %>(Primary)<% } %>
+                            <% if(field.autoinc) { %>(AutoInc)<% } %>
+                            <% if(field.notempty) { %>(NotEmpty)<% } %>
+                        </th>
+                    <% }); %>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(row => { %>
+                    <tr>
+                        <% schema.forEach(field => { %>
+                            <td><%= row[field.name] || '' %></td>
+                        <% }); %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </main>
+</div>
