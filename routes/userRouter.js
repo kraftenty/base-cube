@@ -1,8 +1,8 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
-const { getUserByEmailAndPassword, getEmailByUid, addUser, deleteUser, changePassword } = require('../user/userHandler');
-const { getAllTablesByUid, createTableForUser, getTableDataForUser, getTableSchemaForUser } = require('../dbms/dataService');
+const userHandler = require('../user/userHandler');
+const dataService = require('../dbms/dataService');
 
 // 로그인 여부 확인 미들웨어
 const checkLogin = (req, res, next) => {
@@ -37,7 +37,7 @@ router.route('/login')
         }
 
         try {
-            const { uid, message } = await getUserByEmailAndPassword(email.trim(), password);
+            const { uid, message } = await userHandler.getUserByEmailAndPassword(email.trim(), password);
             if (uid) {
                 req.session.uid = uid;
                 req.session.save(() => res.redirect('/'));
@@ -83,7 +83,7 @@ router.route('/signup')
                 message: 'Passwords do not match' 
             });
         }
-        const { uid, message } = await addUser(email, password);
+        const { uid, message } = await userHandler.addUser(email, password);
         if (uid === null) {
             return res.render('./user/signup', { 
                 layout: '../views/layouts/authLayout', 
@@ -100,7 +100,7 @@ router.route('/signup')
 router.route('/account/delete')
     .post(asyncHandler(async (req, res) => {
         const { uid } = req.session;
-        await deleteUser(uid);
+        await userHandler.deleteUser(uid);
         req.session.destroy(() => res.redirect('/login'));
     }));
 
@@ -136,7 +136,7 @@ router.route('/database')
         res.render('./user/database', {
             layout: '../views/layouts/userLayout',
             title: 'Database',
-            tables: getAllTablesByUid(req.session.uid)
+            tables: dataService.getAllTablesByUid(req.session.uid)
         });
     }));
 
@@ -145,9 +145,9 @@ router.route('/database/table/:table')
         res.render('./user/table', {
             layout: '../views/layouts/userLayout',
             title: req.params.table,
-            tables: getAllTablesByUid(req.session.uid),
-            data: getTableDataForUser(req.session.uid, req.params.table),
-            schema: getTableSchemaForUser(req.session.uid, req.params.table)
+            tables: dataService.getAllTablesByUid(req.session.uid),
+            data: dataService.getTableDataForUser(req.session.uid, req.params.table),
+            schema: dataService.getTableSchemaForUser(req.session.uid, req.params.table)
         });
     }));
 
@@ -156,10 +156,20 @@ router.route('/database/table/:table/insert')
         res.render('./user/tableinsert', {
             layout: '../views/layouts/userLayout',
             title: 'Insert Data',
-            tables: getAllTablesByUid(req.session.uid),
-            schema: getTableSchemaForUser(req.session.uid, req.params.table),
+            schema: dataService.getTableSchemaForUser(req.session.uid, req.params.table),
             table: req.params.table,
+            tables: dataService.getAllTablesByUid(req.session.uid)
         });
+    }))
+    .post(checkLogin, asyncHandler(async (req, res) => {
+        await dataService.insertRecord(req.session.uid, req.params.table, req.body);
+        res.redirect(`/database/table/${req.params.table}`);
+    }));
+
+router.route('/database/table/:table/drop')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        await dataService.dropTableForUser(req.session.uid, req.params.table);
+        res.redirect('/database');
     }));
 
 router.route('/database/create')
@@ -167,12 +177,11 @@ router.route('/database/create')
         res.render('./user/createtable', {
             layout: '../views/layouts/userLayout',
             title: 'Create Table',
-            tables: getAllTablesByUid(req.session.uid)
+            tables: dataService.getAllTablesByUid(req.session.uid)
         });
     }))
     .post(checkLogin, asyncHandler(async (req, res) => {
-        console.log(req.body);
-        await createTableForUser(req.session.uid, req.body);
+        await dataService.createTableForUser(req.session.uid, req.body);
         res.redirect('/database');
     }));
 
@@ -215,7 +224,7 @@ router.route('/account/updateinfo')
                 message: 'New passwords do not match'
             });
         }
-        const isPasswordChanged = await changePassword(uid, oldPassword, newPassword);
+        const isPasswordChanged = await userHandler.changePassword(uid, oldPassword, newPassword);
         if (!isPasswordChanged) {
             return res.render('./user/updateinfo', {
                 layout: '../views/layouts/userLayout',

@@ -1,11 +1,17 @@
 {
   "schema": [
     {
-      "name": "id",
-      "primary": true,
-      "autoinc": true
+      "name": "ud",
+      "primary": true
     }
   ],
-  "autoincvalue": 1,
-  "data": []
+  "autoincvalue": 3,
+  "data": [
+    {
+      "ud": "123"
+    },
+    {
+      "ud": "134124"
+    }
+  ]
 }

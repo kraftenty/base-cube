@@ -32,9 +32,24 @@ function getTableDataForUser(uid, tableName) {
     return dataAccessor.selectRecordAll(uid, { from: tableName });
 }
 
+function dropTableForUser(uid, tableName) {
+    return dataAccessor.dropTable(uid, tableName);
+}
+
+function insertRecord(uid, tableName, body) {
+    let query = {
+        method: 'insert',
+        from: tableName,
+        value: body
+    }
+    return dataAccessor.insertRecord(uid, query);
+}
+
 module.exports = {
     getAllTablesByUid,
     createTableForUser,
     getTableDataForUser,
-    getTableSchemaForUser
+    getTableSchemaForUser,
+    dropTableForUser,
+    insertRecord
 };

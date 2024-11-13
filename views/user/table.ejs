@@ -20,7 +20,7 @@
         <h3><%= title %></h3>
         <div style="display: flex; gap: 10px; margin-bottom: 10px;">
             <button class="button" onclick="location.href='/database/table/<%= title %>/insert'">Insert Data</button>
-            <button class="button" onclick="if(confirm('Are you sure to drop <%= title %> table?')) location.href='/database/table/<%= title %>/delete'">Drop Table</button>
+            <button class="button" onclick="if(confirm('Are you sure to drop <%= title %> table?')) location.href='/database/table/<%= title %>/drop'">Drop Table</button>
         </div>
         <hr>
         <table class="data-table" border="1">

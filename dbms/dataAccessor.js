@@ -41,6 +41,15 @@ function createTable(uid, tableName, schema) {
     fs.writeFileSync(filePath, JSON.stringify(tableStructure, null, 2));
 }
 
+// 테이블 삭제 함수
+function dropTable(uid, tableName) {
+    const filePath = `${getDatabasePath(uid)}/${tableName}.json`;
+    if (!fs.existsSync(filePath)) {
+        return;
+    }
+    fs.unlinkSync(filePath);
+}
+
 // 자바스크립트의 이상한 boolean 체크에 대응하기 위한 함수
 function exists(data) {
     return (data !== undefined && data !== null && data !== '');
@@ -281,5 +290,6 @@ module.exports = {
     selectRecordWhere,
     updateRecord,
     deleteRecord,
-    selectTableSchema
+    selectTableSchema,
+    dropTable
 }

@@ -15,7 +15,7 @@
       "notempty": true
     }
   ],
-  "autoincvalue": 1,
+  "autoincvalue": 3,
   "data": [
     {
       "id": 1,
@@ -26,6 +26,16 @@
       "id": 2,
       "name": "item2",
       "price": 200
+    },
+    {
+      "name": "주스",
+      "price": "100",
+      "id": 1
+    },
+    {
+      "name": "dd",
+      "price": "adasf",
+      "id": 2
     }
   ]
 }
