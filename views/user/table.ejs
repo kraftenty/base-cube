@@ -38,7 +38,15 @@
             </thead>
             <tbody>
                 <% data.forEach(row => { %>
-                    <tr>
+                    <% 
+                    let primaryKey;
+                    schema.forEach(field => {
+                        if(field.primary) {
+                            primaryKey = row[field.name];
+                        }
+                    });
+                    %>
+                    <tr onclick="location.href='/database/table/<%= title %>/update/<%= primaryKey %>'" style="cursor: pointer;">
                         <% schema.forEach(field => { %>
                             <td><%= row[field.name] || '' %></td>
                         <% }); %>

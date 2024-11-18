@@ -1,0 +1,64 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/database">Overview</a>
+        </p>
+        <p>
+            <a href="/database/create">Create Table</a>
+        </p>
+        <hr>
+        <p>
+            Tables
+            <% tables.forEach(table => { %>
+                <br><a href="/database/table/<%= table %>"> - <%= table %></a>
+            <% }); %>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3>Update <%= table %> Record for primary key <%= primarykey %></h3>
+        <form action="/database/table/<%= table %>/update/<%= primarykey %>" method="post" id="updateForm">
+            <% schema.forEach(column => { %>
+                <div>
+                    <label for="<%= column.name %>"><%= column.name %></label>
+                    <input type="text" id="<%= column.name %>" name="<%= column.name %>" class="input-field" 
+                        value="<%= record[0][column.name] %>" 
+                        data-original="<%= record[0][column.name] %>"
+                        onchange="checkFormChanges()"
+                        <%= column.primary || column.autoinc ? 'disabled' : '' %>>
+                </div>
+            <% }); %>
+            <br>
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="button" id="updateButton" disabled>Update</button>
+                <button type="button" class="button" onclick="if(confirm('Are you sure you want to delete this record?')) { 
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/database/table/<%= table %>/delete/<%= primarykey %>';
+                    document.body.appendChild(form);
+                    form.submit();
+                }">Delete</button>
+                <button type="button" class="button" onclick="location.href='/database/table/<%= table %>'">Back</button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<script>
+function checkFormChanges() {
+    const inputs = document.querySelectorAll('.input-field:not([disabled])');
+    let hasChanges = false;
+    
+    inputs.forEach(input => {
+        if(input.value !== input.dataset.original) {
+            hasChanges = true;
+        }
+    });
+    
+    document.getElementById('updateButton').disabled = !hasChanges;
+}
+
+// 초기 로드시 체크
+window.onload = checkFormChanges;
+</script>

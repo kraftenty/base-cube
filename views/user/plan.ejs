@@ -1,0 +1,156 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/account/plan">Plan</a>
+        </p>
+        <p>
+            <a href="/account/updateinfo">Update Information</a>
+        </p>
+        <p>
+            <a href="/account/delete">Delete Account</a>
+        </p>
+    </aside>
+    <main class="main">
+        <h3>Plan</h3>
+        <p>Your class: <%= userClass %></p>
+        <hr>
+        <div class="payment-box">
+            <div class="payment-box-item">
+                <div class="tier-gradient bronze"></div>
+                <h4>Bronze</h4>
+                <p class="price">Free</p>
+                <p class="feature">3 tables</p>
+                <% if (userClass === 'bronze') { %>
+                    <div class="selected">Selected</div>
+                <% } %>
+            </div>
+            <div class="payment-box-item">
+                <div class="tier-gradient silver"></div>
+                <h4>Silver</h4>
+                <p class="price">$50</p>
+                <p class="feature">10 tables</p>
+                <% if (userClass === 'silver') { %>
+                    <div class="selected">Selected</div>
+                <% } else if (userClass === 'bronze') { %>
+                    <a href="/account/plan/pay/silver" class="select-btn">Select Plan</a>
+                <% } %>
+            </div>
+            <div class="payment-box-item">
+                <div class="tier-gradient gold"></div>
+                <h4>Gold</h4>
+                <p class="price">$100</p>
+                <p class="feature">30 tables</p>
+                <% if (userClass === 'gold') { %>
+                    <div class="selected">Selected</div>
+                <% } else if (userClass === 'bronze' || userClass === 'silver') { %>
+                    <a href="/account/plan/pay/gold" class="select-btn">Select Plan</a>
+                <% } %>
+            </div>
+            <div class="payment-box-item">
+                <div class="tier-gradient platinum"></div>
+                <h4>Platinum</h4>
+                <p class="price">$300</p>
+                <p class="feature">100 tables</p>
+                <% if (userClass === 'platinum') { %>
+                    <div class="selected">Selected</div>
+                <% } else if (userClass === 'bronze' || userClass === 'silver' || userClass === 'gold') { %>
+                    <a href="/account/plan/pay/platinum" class="select-btn">Select Plan</a>
+                <% } %>
+            </div>
+        </div>
+
+        <style>
+            .payment-box {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .payment-box-item {
+                width: 200px;
+                height: 500px;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                text-align: center;
+                background: white;
+                transition: transform 0.3s ease;
+            }
+
+            .payment-box-item:hover {
+                transform: translateY(-10px);
+            }
+
+            .tier-gradient {
+                width: 150px;
+                height: 150px;
+                margin: 0 auto 20px;
+                border-radius: 50%;
+            }
+
+            .bronze {
+                background: linear-gradient(135deg, #804A00, #CD7F32, #B08D57);
+            }
+
+            .silver {
+                background: linear-gradient(135deg, #C0C0C0, #E8E8E8, #A8A8A8);
+            }
+
+            .gold {
+                background: linear-gradient(135deg, #FFD700, #FDB931, #D4AF37);
+            }
+
+            .platinum {
+                background: linear-gradient(135deg, #00c3ff, #FFFFFF, #00e8f0);
+            }
+
+            .payment-box-item h4 {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 15px;
+            }
+
+            .price {
+                font-size: 32px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 10px;
+            }
+
+            .feature {
+                color: #666;
+                margin-bottom: 30px;
+            }
+
+            .select-btn {
+                padding: 10px 20px;
+                background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+                color: #333;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                transition: all 0.2s ease;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .select-btn:hover {
+                background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+                box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            }
+
+            .select-btn:active {
+                transform: translateY(1px);
+                box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            }
+
+            .selected {
+                color: #777777;
+                margin-top: 10px;
+            }
+        </style>
+    </main>
+</div>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - BaseCube</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #8A2BE2, #0052D4, #50C878);
+            background-size: 300% 300%;
+            animation: gradient 2s ease infinite;
+            font-family: 'Arial', sans-serif;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .payment-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 400px;
+            position: relative;
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .payment-header h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        .amount {
+            font-size: 32px;
+            color: #0052D4;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .card-details {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-details input {
+            width: 50%;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #0052D4, #4364F7);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .secure-badge {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 15px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-modal">
+        <a href="/account/plan" class="back-button">← Back</a>
+        <div class="payment-header">
+            <h2>Credit Card Payment</h2>
+            <p>데모 결제창이므로, 실제로 결제되지 않습니다.</p>
+        </div>
+        
+        <div class="amount">
+            <% if(plan === 'silver') { %>
+                $50
+            <% } else if(plan === 'gold') { %>
+                $100
+            <% } else if(plan === 'platinum') { %>
+                $300
+            <% } %>
+        </div>
+
+        <form id="paymentForm" action="/account/plan/pay/<%= plan %>" method="POST">
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+
+            <div class="form-group">
+                <label>Cardholder Name</label>
+                <input type="text" placeholder="John Doe">
+            </div>
+
+            <div class="card-details">
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                    <label>CVC</label>
+                    <input type="text" placeholder="123" maxlength="3">
+                </div>
+            </div>
+
+            <button type="submit">Pay Now</button>
+        </form>
+
+        <div class="secure-badge">
+            🔒 Secured by our encrypted payment system
+        </div>
+    </div>
+</body>
+</html>

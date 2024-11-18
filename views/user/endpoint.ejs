@@ -2,11 +2,21 @@
     <aside class="sidebar">
         <!-- 사이드바 내용 -->
         <p>
-            <a href="/endpoint/create">Create Endpoint</a>
+            <a href="/endpoint">Overview</a>
+        </p>
+        <hr>
+        <p>
+            Endpoints
+            <% tables.forEach(table => { %>
+                <br><a href="/endpoint/<%= table %>"> - <%= table %></a>
+            <% }); %>
         </p>
     </aside>
     
     <main class="main">
-        <p>endpoints</p>
+        <h3>Endpoints</h3>
+        <hr>
+        <p>Your API Key: <%= apiKey %></p>
+        <p></p>How to: header에 key : <%= apiKey %> 추가</p>
     </main>
 </div>

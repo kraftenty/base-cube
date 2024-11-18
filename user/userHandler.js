@@ -63,12 +63,15 @@ function addUser(email, password) {
     
     const { hash, salt } = encryptPassword(password);
     const uid = generateUniqueUid(data.users);
+    const apiKey = crypto.randomBytes(10).toString('hex'); // 20자리 16진수
     
     const newUser = {
         uid,
         email,
         password: hash,
         salt,
+        apiKey,
+        class: 'bronze', // 초기 클래스는 bronze
         createdAt: new Date().toISOString()
     };
     
@@ -98,6 +101,48 @@ function getUserByEmailAndPassword(email, password) {
     return { uid: user.uid, message: 'Login success' };
 }
 
+// 유저 클래스 조회
+function getUserClass(uid) {
+    const filePath = createUsersFileAndGetFilePath();
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return data.users.find(user => user.uid === uid)?.class || null;
+}
+
+// 유저 클래스별 테이블 개수 리턴
+function getTableCountByClass(clazz) {
+    if (clazz === 'bronze') {
+        return 3;
+    } else if (clazz === 'silver') {
+        return 10;
+    } else if (clazz === 'gold') {
+        return 30;
+    } else if (clazz === 'platinum') {
+        return 100;
+    }
+    return 0;
+}
+
+// 유저 클래스별 가격 리턴
+function getUserClassPrice(clazz) {
+    if (clazz === 'bronze') {
+        return 'free';
+    } else if (clazz === 'silver') {
+        return 50;
+    } else if (clazz === 'gold') {
+        return 100;
+    } else if (clazz === 'platinum') {
+        return 300;
+    }
+    return 0;
+}
+
+// 유저 api key 조회
+function getUserApiKey(uid) {
+    const filePath = createUsersFileAndGetFilePath();
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return data.users.find(user => user.uid === uid)?.apiKey || null;
+}
+
 // 이메일 조회
 function getEmailByUid(uid) {
     const filePath = createUsersFileAndGetFilePath();
@@ -124,6 +169,24 @@ function changePassword(uid, oldPassword, newPassword) {
     return true;
 }
 
+// 유저 클래스 변경
+function changeUserClass(uid, newClass) {
+    const filePath = createUsersFileAndGetFilePath();
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const user = data.users.find(user => user.uid === uid);
+    if (!user) {
+        return false;
+    }
+    // 허용된 클래스 값만 설정 가능
+    const allowedClasses = ['bronze', 'silver', 'gold', 'platinum'];
+    if (!allowedClasses.includes(newClass)) {
+        return false;
+    }
+    user.class = newClass;
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    return true;
+}
+
 // 유저 삭제
 function deleteUser(uid) {
     const filePath = createUsersFileAndGetFilePath();
@@ -132,4 +195,14 @@ function deleteUser(uid) {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-module.exports = { getUserByEmailAndPassword, getEmailByUid, addUser, deleteUser, changePassword };
+module.exports = {
+    getUserByEmailAndPassword,
+    getEmailByUid,
+    addUser,
+    deleteUser,
+    changePassword,
+    changeUserClass,
+    getUserClass,
+    getTableCountByClass,
+    getUserApiKey
+};

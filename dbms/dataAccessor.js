@@ -22,6 +22,12 @@ function createDirectoryForUser(uid) {
 
 // 테이블 생성 및 초기화 함수
 function createTable(uid, tableName, schema) {
+    // 데이터베이스 디렉토리 생성
+    createDatabaseDirectory();
+    
+    // 유저 디렉토리 생성
+    createDirectoryForUser(uid);
+    
     const filePath = `${getDatabasePath(uid)}/${tableName}.json`;
     if (fs.existsSync(filePath)) {
         return;
@@ -35,6 +41,7 @@ function createTable(uid, tableName, schema) {
 
     const tableStructure = {
         schema: schema,
+        api: false, // api 사용 여부
         autoincvalue: 1,  // auto increment 시작값
         data: []
     };

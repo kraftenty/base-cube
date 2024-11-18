@@ -1,0 +1,11 @@
+{
+  "schema": [
+    {
+      "name": "aa",
+      "primary": true
+    }
+  ],
+  "api": false,
+  "autoincvalue": 1,
+  "data": []
+}

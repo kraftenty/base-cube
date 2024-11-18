@@ -25,7 +25,9 @@
                 <button type="submit" class="button">Create Table</button>
             </div>
             <hr>            
-
+            <% if (message) { %>
+                <div style="color: red; margin-bottom: 10px;"><%= message %></div>
+            <% } %>
             <div id="columns">
                 <div class="column">
                     <h4>Column 1</h4>

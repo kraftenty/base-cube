@@ -136,7 +136,8 @@ router.route('/database')
         res.render('./user/database', {
             layout: '../views/layouts/userLayout',
             title: 'Database',
-            tables: dataService.getAllTablesByUid(req.session.uid)
+            tables: dataService.getAllTablesByUid(req.session.uid),
+            maxtablecount: userHandler.getTableCountByClass(userHandler.getUserClass(req.session.uid))
         });
     }));
 
@@ -166,23 +167,65 @@ router.route('/database/table/:table/insert')
         res.redirect(`/database/table/${req.params.table}`);
     }));
 
+router.route('/database/table/:table/update/:primarykey')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        res.render('./user/tableupdate', {
+            layout: '../views/layouts/userLayout',
+            title: 'Update Data',
+            record: dataService.getRecordForUser(req.session.uid, req.params.table, req.params.primarykey),
+            schema: dataService.getTableSchemaForUser(req.session.uid, req.params.table),
+            table: req.params.table,
+            tables: dataService.getAllTablesByUid(req.session.uid),
+            primarykey: req.params.primarykey
+        });
+    }))
+    .post(checkLogin, asyncHandler(async (req, res) => {
+        await dataService.updateRecord(req.session.uid, req.params.table, req.params.primarykey, req.body);
+        res.redirect(`/database/table/${req.params.table}`);
+    }));
+
+router.route('/database/table/:table/delete/:primarykey')
+    .post(checkLogin, asyncHandler(async (req, res) => {
+        await dataService.deleteRecord(req.session.uid, req.params.table, req.params.primarykey);
+        res.redirect(`/database/table/${req.params.table}`);
+    }));
+
 router.route('/database/table/:table/drop')
     .get(checkLogin, asyncHandler(async (req, res) => {
         await dataService.dropTableForUser(req.session.uid, req.params.table);
         res.redirect('/database');
     }));
 
+
+// create table
 router.route('/database/create')
     .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/createtable', {
             layout: '../views/layouts/userLayout',
             title: 'Create Table',
+            message: '',
             tables: dataService.getAllTablesByUid(req.session.uid)
         });
     }))
     .post(checkLogin, asyncHandler(async (req, res) => {
-        await dataService.createTableForUser(req.session.uid, req.body);
-        res.redirect('/database');
+        if (dataService.isTableExists(req.session.uid, req.body.tableName)) {
+            return res.render('./user/createtable', {
+                layout: '../views/layouts/userLayout',
+                title: 'Create Table',
+                message: 'Table already exists',
+                tables: dataService.getAllTablesByUid(req.session.uid)
+            });
+        } else if (dataService.getTableCount(req.session.uid) + 1 > userHandler.getTableCountByClass(userHandler.getUserClass(req.session.uid))) {
+            return res.render('./user/createtable', {
+                layout: '../views/layouts/userLayout',
+                title: 'Create Table',
+                message: 'You have reached the maximum number of tables. Upgrade your plan to create more tables...',
+                tables: dataService.getAllTablesByUid(req.session.uid)
+            });
+        } else {
+            await dataService.createTableForUser(req.session.uid, req.body);
+            res.redirect('/database');
+        }
     }));
 
 
@@ -192,18 +235,33 @@ router.route('/endpoint')
     .get(checkLogin, asyncHandler(async (req, res) => {
         res.render('./user/endpoint', {
             layout: '../views/layouts/userLayout',
-            title: 'Endpoint'
+            title: 'Endpoint',
+            tables: dataService.getAllTablesByUid(req.session.uid),
+            apiKey: userHandler.getUserApiKey(req.session.uid)
         });
     }));
 
 // 어카운트 페이지
 
-router.route('/account/payment')
+router.route('/account/plan')
     .get(checkLogin, asyncHandler(async (req, res) => {
-        res.render('./user/payment', {
+        res.render('./user/plan', {
             layout: '../views/layouts/userLayout',
-            title: 'Payment'
+            title: 'Plan',
+            userClass: userHandler.getUserClass(req.session.uid)
         });
+    }));
+
+router.route('/account/plan/pay/:plan')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        res.render('./user/pay', {
+            layout: false,
+            plan: req.params.plan
+        });
+    }))
+    .post(checkLogin, asyncHandler(async (req, res) => {
+        await userHandler.changeUserClass(req.session.uid, req.params.plan);
+        res.redirect('/account/plan');
     }));
 
 router.route('/account/updateinfo')
@@ -235,7 +293,7 @@ router.route('/account/updateinfo')
         res.render('./user/updateinfo', {
             layout: '../views/layouts/userLayout',
             title: 'Update Information',
-            message: 'Password changed successfully'
+            message: 'Password changed successfully'    
         });
     }));
 

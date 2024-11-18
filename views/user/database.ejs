@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <aside class="sidebar">
-        <!-- 사이드바 내용 -->
+        <!-- Sidebar content -->
         <p>
             <a href="/database">Overview</a>
         </p>
@@ -17,6 +17,60 @@
     </aside>
     
     <main class="main">
-        <p>database overview. db개수 등</p>
+        <h3>Database Overview</h3>
+        <div style="width: 300px; height: 300px; margin: 0 auto;">
+            <canvas id="tableChart"></canvas>
+        </div>
+        <hr>
+        <h4>Tables</h4>
+        <div class="table-list" style="margin-top: 20px;">
+            <% tables.forEach(table => { %>
+                <a href="/database/table/<%= table %>" class="table-box" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333;">
+                    <%= table %>
+                </a>
+            <% }); %>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const ctx = document.getElementById('tableChart').getContext('2d');
+                const usedTables = parseInt('<%= tables.length %>');
+                const maxTables = parseInt('<%= maxtablecount %>'); 
+                const remainingTables = maxTables - usedTables;
+                
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Used Tables', 'Remaining Table Space'],
+                        datasets: [{
+                            data: [usedTables, remainingTables],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(211, 211, 211, 0.8)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Table Usage (' + usedTables + '/' + maxTables + ')',
+                                padding: 20
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
     </main>
 </div>
