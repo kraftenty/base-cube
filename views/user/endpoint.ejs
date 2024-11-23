@@ -14,9 +14,199 @@
     </aside>
     
     <main class="main">
-        <h3>Endpoints</h3>
+        <h3><%= table %></h3>
         <hr>
-        <p>Your API Key: <%= apiKey %></p>
-        <p></p>How to: header에 key : <%= apiKey %> 추가</p>
+        <div class="api-toggle-container">
+            <span class="toggle-label">Use Endpoint</span>
+            <form id="apiForm" method="POST" action="/endpoint/<%= table %>">
+                <label class="switch">
+                    <input type="checkbox" name="api" value="true" <%= isApiEnabled ? 'checked' : '' %> onchange="document.getElementById('apiForm').submit()">
+                    <span class="slider"></span>
+                </label>
+            </form>
+        </div>
+
+        <h4>REST API</h4>
+        
+        <div class="api-docs">
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/api/<%= uid %>/<%= table %></span>
+                </div>
+                <div class="description">Get all records from the table</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/api/<%= uid %>/<%= table %>/[Primary Key]</span>
+                </div>
+                <div class="description">Get a single record by primary key</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method post">POST</span>
+                    <span class="url">/api/<%= uid %>/<%= table %></span>
+                </div>
+                <div class="description">Create a new record</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method put">PUT</span>
+                    <span class="url">/api/<%= uid %>/<%= table %>/[Primary Key]</span>
+                </div>
+                <div class="description">Update a record by primary key</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method delete">DELETE</span>
+                    <span class="url">/api/<%= uid %>/<%= table %>/[Primary Key]</span>
+                </div>
+                <div class="description">Delete a record by primary key</div>
+            </div>
+        </div>
+
+        <h4>DML Query at URL</h4>
+        
+        <div class="api-docs">
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/dml/<%= uid %>/select;from-<%= table %></span>
+                </div>
+                <div class="description">Select All Query</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/dml/<%= uid %>/select;from-<%= table %>;where-[attribute]-[operator]-[value][-and-...]</span>
+                </div>
+                <div class="description">Select Query</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/dml/<%= uid %>/insert;from-<%= table %>;value-[attribute]-=-[value][-and-...]</span>
+                </div>
+                <div class="description">Insert Query</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/dml/<%= uid %>/update;from-<%= table %>;set-[attribute]-=-[value]-where-[attribute]-[operator]-[value][-and-...]</span>
+                </div>
+                <div class="description">Update Query</div>
+            </div>
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="url">/dml/<%= uid %>/delete;from-<%= table %>;where-[attribute]-[operator]-[value][-and-...]</span>
+                </div>
+                <div class="description">Delete Query</div>
+            </div>
+        </div>
+
+        <style>
+            .api-toggle-container {
+                display: flex;
+                align-items: center;
+                margin: 20px 0;
+            }
+            
+            .toggle-label {
+                margin-right: 12px;
+                font-size: 14px;
+                color: #666;
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 48px;
+                height: 24px;
+            }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #e0e0e0;
+                border-radius: 24px;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                border-radius: 50%;
+            }
+
+            input:checked + .slider {
+                background-color: #4CAF50;
+            }
+
+            input:checked + .slider:before {
+                transform: translateX(24px);
+            }
+
+            .api-docs {
+                background-color: #f5f5f5;
+                border-radius: 8px;
+                padding: 20px;
+                margin-top: 20px;
+            }
+
+            .endpoint {
+                display: flex;
+                flex-direction: column;
+                margin: 10px 0;
+                padding: 10px;
+                background-color: white;
+                border-radius: 4px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            .method {
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 12px;
+                color: white;
+                min-width: 60px;
+                text-align: center;
+                margin-right: 12px;
+            }
+
+            .get { background-color: #61affe; }
+            .post { background-color: #49cc90; }
+            .put { background-color: #fca130; }
+            .delete { background-color: #f93e3e; }
+
+            .url {
+                font-family: monospace;
+                color: #3b4151;
+                margin-right: 12px;
+            }
+
+            .description {
+                color: #666;
+                font-size: 14px;
+                margin-top: 8px;
+                margin-left: 72px;
+            }
+        </style>
     </main>
 </div>

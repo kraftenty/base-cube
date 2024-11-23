@@ -44,7 +44,7 @@ const { createTable, insertRecord, selectRecordAll, selectRecordWhere, updateRec
  */
 
 /**
- * query = {
+ * query = {    
  *     method: "delete",
  *     from: "product",
  *     where: [

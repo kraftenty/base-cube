@@ -233,12 +233,34 @@ router.route('/database/create')
 
 router.route('/endpoint')
     .get(checkLogin, asyncHandler(async (req, res) => {
-        res.render('./user/endpoint', {
+        res.render('./user/endpointinfo', {
             layout: '../views/layouts/userLayout',
             title: 'Endpoint',
             tables: dataService.getAllTablesByUid(req.session.uid),
-            apiKey: userHandler.getUserApiKey(req.session.uid)
+            apiKey: userHandler.getUserApiKey(req.session.uid),
+            uid: req.session.uid
         });
+    }));
+
+router.route('/endpoint/:table')
+    .get(checkLogin, asyncHandler(async (req, res) => {
+        const table = req.params.table;
+        const isApiEnabled = await dataService.isApiEnabled(req.session.uid, table);
+        res.render('./user/endpoint', {
+            layout: '../views/layouts/userLayout',
+            title: table,
+            tables: dataService.getAllTablesByUid(req.session.uid),
+            apiKey: userHandler.getUserApiKey(req.session.uid),
+            uid: req.session.uid,
+            table: table,
+            isApiEnabled: isApiEnabled
+        });
+    }))
+    .post(checkLogin, asyncHandler(async (req, res) => { // api 사용 여부 설정
+        const { api } = req.body;
+        console.log(api);
+        await dataService.setApiOpen(req.session.uid, req.params.table, api === 'true');
+        res.redirect(`/endpoint/${req.params.table}`);
     }));
 
 // 어카운트 페이지

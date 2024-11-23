@@ -1,0 +1,35 @@
+{
+  "schema": [
+    {
+      "name": "pid",
+      "primary": true,
+      "autoinc": true
+    },
+    {
+      "name": "name",
+      "notempty": true
+    },
+    {
+      "name": "company"
+    }
+  ],
+  "api": true,
+  "autoincvalue": 4,
+  "data": [
+    {
+      "name": "galaxy",
+      "company": "newsamsung",
+      "pid": 1
+    },
+    {
+      "name": "iphone",
+      "company": "apple",
+      "pid": 2
+    },
+    {
+      "name": "galaxy",
+      "company": "samsung",
+      "pid": 3
+    }
+  ]
+}

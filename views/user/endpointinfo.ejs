@@ -1,0 +1,80 @@
+<div class="content-wrapper">
+    <aside class="sidebar">
+        <!-- 사이드바 내용 -->
+        <p>
+            <a href="/endpoint">Overview</a>
+        </p>
+        <hr>
+        <p>
+            Endpoints
+            <% tables.forEach(table => { %>
+                <br><a href="/endpoint/<%= table %>"> - <%= table %></a>
+            <% }); %>
+        </p>
+    </aside>
+    
+    <main class="main">
+        <h3>Endpoints</h3>
+        <hr>
+        <div class="api-info">
+            <div class="info-box">
+                <span class="label">API Key:</span>
+                <code class="value"><%= apiKey %></code>
+            </div>
+            <div class="info-box">
+                <span class="label">UID:</span>
+                <code class="value"><%= uid %></code>
+            </div>
+        </div>
+
+        <div class="usage-guide">
+            <h4>How to use:</h4>
+            <div class="code-block">
+                <p>Add the following header to your requests:</p>
+                <code>key: <%= apiKey %></code>
+            </div>
+        </div>
+
+        <style>
+            .api-info {
+                margin: 20px 0;
+            }
+            .info-box {
+                background: #f8f9fa;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                padding: 15px;
+                margin-bottom: 15px;
+                font-family: 'Consolas', 'Monaco', monospace;
+            }
+            .label {
+                color: #495057;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            .value {
+                color: #0066cc;
+                background: #e9ecef;
+                padding: 2px 6px;
+                border-radius: 3px;
+            }
+            .usage-guide {
+                margin-top: 30px;
+            }
+            .code-block {
+                background: #2d2d2d;
+                color: #fff;
+                padding: 20px;
+                border-radius: 4px;
+                font-family: 'Consolas', 'Monaco', monospace;
+            }
+            .code-block p {
+                color: #9e9e9e;
+                margin-bottom: 10px;
+            }
+            .code-block code {
+                color: #66d9ef;
+            }
+        </style>
+    </main>
+</div>

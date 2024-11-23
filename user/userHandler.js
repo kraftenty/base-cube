@@ -143,6 +143,13 @@ function getUserApiKey(uid) {
     return data.users.find(user => user.uid === uid)?.apiKey || null;
 }
 
+// 유저 api key 유효성 검사
+function verifyUserApiKey(uid, apiKey) {
+    const filePath = createUsersFileAndGetFilePath();
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return data.users.find(user => user.uid === uid && user.apiKey === apiKey) ? true : false;
+}
+
 // 이메일 조회
 function getEmailByUid(uid) {
     const filePath = createUsersFileAndGetFilePath();
@@ -204,5 +211,6 @@ module.exports = {
     changeUserClass,
     getUserClass,
     getTableCountByClass,
-    getUserApiKey
+    getUserApiKey,
+    verifyUserApiKey
 };

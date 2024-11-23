@@ -1,5 +1,5 @@
 const dataAccessor = require('./dataAccessor');
-
+const dataService = require('./dataService');
 
 function getResultFromManager(uid, query) {
     if (query.method === 'select') {
@@ -13,7 +13,7 @@ function getResultFromManager(uid, query) {
     } else if (query.method === 'update') {
         return dataAccessor.updateRecord(uid, query);
     } else if (query.method === 'delete') {
-        return dataAccessor.deleteRecord(query);
+        return dataAccessor.deleteRecord(uid,query);
     }
 }
 
@@ -22,14 +22,60 @@ function getResultFromManager(uid, query) {
 // bearer: apikey.....
 
 // api/uid/table [GET] ;전체 리스트 조회
-// api/uid/table/pk [GET] ;단건 조회
-// api/uid/table [POST] ;생성
-// api/uid/table/pk [PUT] ;수정
-// api/uid/table/pk [DELETE] ;삭제
-function queryByRESTAPI(uid, query) {
+function getAllListByRESTAPI(uid, table) {
+    const query = {
+        method: 'select',
+        from: table
+    };
     return getResultFromManager(uid, query);
 }
 
+// api/uid/table/pk [GET] ;단건 조회
+function getOneByRESTAPI(uid, table, pk) {
+    console.log("get one in dataHandler");
+    const query = {
+        method: 'select',
+        from: table,
+        where: [{attribute: dataService.getPrimaryKeyForUser(uid, table), operator: '=', value: pk}]
+    };
+    console.log(query); 
+    return getResultFromManager(uid, query);
+}
+
+// api/uid/table [POST] ;생성
+function createByRESTAPI(uid, table, data) {
+    const query = {
+        method: 'insert',
+        from: table,
+        value: data
+    };
+    return getResultFromManager(uid, query);
+}
+
+// api/uid/table/pk [PUT] ;수정
+function updateByRESTAPI(uid, table, pk, data) {
+    const query = {
+        method: 'update',
+        from: table,
+        set: Object.entries(data).map(([attribute, value]) => ({
+            attribute,
+            value
+        })),
+        where: [{attribute: dataService.getPrimaryKeyForUser(uid, table), operator: '=', value: pk}]
+    };
+    return getResultFromManager(uid, query);
+}
+
+// api/uid/table/pk [DELETE] ;삭제
+function deleteByRESTAPI(uid, table, pk) {
+    const query = {
+        method: 'delete',
+        from: table,
+        where: [{attribute: dataService.getPrimaryKeyForUser(uid, table), operator: '=', value: pk}]
+    };
+    console.log('deleteByRESTAPI', query);
+    return getResultFromManager(uid, query);
+}
 
 // DML 형식으로 쿼리 처리
 function queryByDML(uid, queryString) {
@@ -108,4 +154,4 @@ function parseWhereClause(whereString) {
     });
 }
 
-module.exports = { queryByRESTAPI, queryByDML };
+module.exports = { getAllListByRESTAPI, getOneByRESTAPI, createByRESTAPI, updateByRESTAPI, deleteByRESTAPI, queryByDML };

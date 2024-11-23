@@ -40,6 +40,12 @@ function getTableSchemaForUser(uid, tableName) {
     return dataAccessor.selectTableSchema(uid, { from : tableName });
 }
 
+function getPrimaryKeyForUser(uid, tableName) {
+    const schema = getTableSchemaForUser(uid, tableName);
+    const primaryKeyColumn = schema.find(column => column.primary);
+    return primaryKeyColumn.name;
+}
+
 function getTableDataForUser(uid, tableName) {
     return dataAccessor.selectRecordAll(uid, { from: tableName });
 }
@@ -94,6 +100,15 @@ function dropTableForUser(uid, tableName) {
     return dataAccessor.dropTable(uid, tableName);
 }
 
+function isApiEnabled(uid, tableName) {
+    return dataAccessor.isApiEnabled(uid, tableName);
+}
+
+function setApiOpen(uid, tableName, bool) {
+    return dataAccessor.setApiOpen(uid, tableName, bool);
+}
+
+
 module.exports = {
     getAllTablesByUid,
     createTableForUser,
@@ -105,5 +120,8 @@ module.exports = {
     updateRecord,
     deleteRecord,
     isTableExists,
-    getTableCount
+    getTableCount,
+    getPrimaryKeyForUser,
+    isApiEnabled,
+    setApiOpen
 };

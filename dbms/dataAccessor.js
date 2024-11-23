@@ -283,9 +283,22 @@ function deleteRecord(uid, query) {
     
     table.data = table.data.filter(record => !where.every(condition => compareRecordByCondition(record, condition)));
     fs.writeFileSync(filePath, JSON.stringify(table, null, 2));
-    return table.data;
 }
 
+// api 사용 여부 설정
+function setApiOpen(uid, tableName, bool) {
+    const filePath = `${getDatabasePath(uid)}/${tableName}.json`;
+    const table = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    table.api = bool;
+    fs.writeFileSync(filePath, JSON.stringify(table, null, 2));
+}
+
+// api 사용 여부 조회
+function isApiEnabled(uid, tableName) {
+    const filePath = `${getDatabasePath(uid)}/${tableName}.json`;
+    const table = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return table.api;
+}
 
 module.exports = {
     getDatabasePath,
@@ -298,5 +311,7 @@ module.exports = {
     updateRecord,
     deleteRecord,
     selectTableSchema,
-    dropTable
+    dropTable,
+    setApiOpen,
+    isApiEnabled
 }

@@ -1,0 +1,56 @@
+{
+  "schema": [
+    {
+      "name": "id",
+      "primary": true,
+      "autoinc": true
+    },
+    {
+      "name": "name",
+      "notempty": true
+    },
+    {
+      "name": "price",
+      "notempty": true
+    }
+  ],
+  "api": true,
+  "autoincvalue": 10,
+  "data": [
+    {
+      "name": "bananamilk",
+      "price": "1500",
+      "id": 1
+    },
+    {
+      "name": "gwaza",
+      "price": "1111",
+      "id": 4
+    },
+    {
+      "name": "water",
+      "price": "1234",
+      "id": 5
+    },
+    {
+      "name": "hotbar",
+      "price": 5678,
+      "id": 6
+    },
+    {
+      "name": "xylitol",
+      "price": 333,
+      "id": 7
+    },
+    {
+      "name": "choco",
+      "price": "9876",
+      "id": 8
+    },
+    {
+      "name": "galaxy",
+      "price": 5000,
+      "id": 9
+    }
+  ]
+}

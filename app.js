@@ -42,7 +42,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // 라우팅
 app.use('/', require('./routes/userRouter'));
-app.use('/admin', require('./routes/adminRouter'));
+app.use('/api', require('./routes/apiRouter'));
+app.use('/dml', require('./routes/dmlRouter'));
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
