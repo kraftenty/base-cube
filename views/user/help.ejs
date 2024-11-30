@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <aside class="sidebar">
-        <!-- 사이드바 내용 -->
+        <!-- Sidebar content -->
         <p>
             <a href="/">About</a>
         </p>
@@ -12,7 +12,86 @@
         </p>
     </aside>
     
-    <main class="main">
-        <p>help</p>
+    <main class="main help-content">
+        <h1 class="help-title">Help Center</h1>
+        
+        <section class="help-section">
+            <h2 class="section-title">Database</h2>
+            <div class="section-content">
+                <p>Each account gets 3 free tables. Consider upgrading to a better plan if you need more tables.</p>
+                <p>When creating a table, you can add as many columns as you want.</p>
+                <p>Column names and table names are mandatory.</p>
+                <p>Each table must have exactly one primary key.</p>
+                <p>Primary keys automatically include unique and not empty options.</p>
+                <p>Other columns can use auto increment and not empty options.</p>
+                <p>You can insert data into tables, and clicking on each row allows for updates and deletions.</p>
+                <p>Auto-incrementing columns will automatically increase in value and cannot be modified.</p>
+                <p>Tables can be deleted using the drop table button.</p>
+            </div>
+        </section>
+
+        <section class="help-section">
+            <h2 class="section-title">Endpoint</h2>
+            <div class="section-content">
+                <p>Users can activate and use API endpoints to manipulate tables.</p>
+                <p>Activation toggle switches are located on each endpoint page.</p>
+                <p>Each endpoint page contains instructions for both REST API and DML Query methods. Please refer to these when making requests.</p>
+                <p>Requests require both an API Key and UID, which can be found on the Endpoints page.</p>
+                <p>Insert the UID in the URL and include the API Key in the HTTP request header (key:API Key).</p>
+                <p>Requests will be rejected if either is missing.</p>
+            </div>
+        </section>
+
+        <section class="help-section">
+            <h2 class="section-title">Plan</h2>
+            <div class="section-content">
+                <p>The free plan (bronze) allows for 3 tables.</p>
+                <p>Consider upgrading to silver, gold, or platinum plans for additional tables.</p>
+            </div>
+        </section>
     </main>
 </div>
+
+<style>
+.help-content {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.help-title {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.help-section {
+    margin-bottom: 3rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+}
+
+.section-content p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+
+
+.content-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+</style>

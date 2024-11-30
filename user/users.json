@@ -1,13 +1,13 @@
 {
   "users": [
     {
-      "uid": "fdabd5d6",
-      "email": "hgr@a.a",
-      "password": "8de019530976d69c6707b18376d14825170dc52a5562503eba22eb30d5218bb6eed9da9e49b4f99f2311aeee529314bee0496109ff54adc75b734a5bf3926ac1",
-      "salt": "1a89b0d709825b7d4fbdfc7ed5fe7de5",
-      "apiKey": "d3f26338f6d4753df4e3",
+      "uid": "c6d855be",
+      "email": "kraftenty@gmail.com",
+      "password": "4c1401718388076e8a5fa8c324f392e9f04553b97718744e7f52aa57cc0c892c318e92ba6aa34765e1f0110d2bf102927d5d62d978c8181d7624b7b695150f0f",
+      "salt": "79c79de853eeea74abd421ef7a4df110",
+      "apiKey": "552e0df8e318d883e3ac",
       "class": "silver",
-      "createdAt": "2024-11-18T15:08:32.067Z"
+      "createdAt": "2024-11-25T12:10:06.822Z"
     }
   ]
 }

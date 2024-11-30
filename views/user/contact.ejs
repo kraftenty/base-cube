@@ -13,6 +13,71 @@
     </aside>
     
     <main class="main">
-        <p>contact</p>
+        <h3>Contact Us</h3>
+        <hr>
+        
+        <div class="contact-info">
+            <div class="contact-card">
+                <div class="icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" width="24" height="24" alt="email icon">
+                </div>
+                <div class="details">
+                    <h4>Email</h4>
+                    <a href="mailto:kraftenty@gmail.com">kraftenty@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="24" height="24" alt="github icon">
+                </div>
+                <div class="details">
+                    <h4>GitHub</h4>
+                    <a href="https://github.com/kraftenty" target="_blank">github.com/kraftenty</a>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .contact-info {
+                margin-top: 30px;
+            }
+            
+            .contact-card {
+                display: flex;
+                align-items: center;
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 20px;
+                transition: transform 0.2s;
+            }
+
+            .contact-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .icon {
+                margin-right: 20px;
+                width: 40px;
+                text-align: center;
+            }
+
+            .details h4 {
+                margin: 0 0 8px 0;
+                color: #333;
+            }
+
+            .details a {
+                color: #0066cc;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+            .details a:hover {
+                text-decoration: underline;
+            }
+        </style>
     </main>
 </div>

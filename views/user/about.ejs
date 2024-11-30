@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <aside class="sidebar">
-        <!-- 사이드바 내용 -->
+        <!-- Sidebar content -->
         <p>
             <a href="/">About</a>
         </p>
@@ -13,6 +13,91 @@
     </aside>
     
     <main class="main">
-        <p>main</p>
+        <div class="hero-section">
+            <h1>BaseCube</h1>
+            <p class="tagline">Backend as a Service for Developers</p>
+        </div>
+
+        <div class="features-section">
+            <h2>Key Services</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1045/1045885.png" alt="Database" width="64">
+                    <h3>Cloud Database</h3>
+                    <p>Easily manage your data with a secure and scalable cloud database.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1062/1062624.png" alt="API" width="64">
+                    <h3>API Endpoint</h3>
+                    <p>Reduce backend development time with automatically generated RESTful APIs.</p>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .hero-section {
+                text-align: center;
+                padding: 60px 0;
+                background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+                border-radius: 10px;
+                margin-bottom: 40px;
+                color: #fff;
+            }
+
+            .hero-section h1 {
+                font-size: 3em;
+                margin-bottom: 10px;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .tagline {
+                font-size: 1.2em;
+                opacity: 0.9;
+            }
+
+            .features-section {
+                padding: 20px;
+            }
+
+            .features-section h2 {
+                text-align: center;
+                margin-bottom: 30px;
+                color: #333;
+            }
+
+            .feature-cards {
+                display: flex;
+                gap: 30px;
+                justify-content: center;
+            }
+
+            .feature-card {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                text-align: center;
+                flex: 1;
+                transition: transform 0.3s ease;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .feature-card img {
+                margin-bottom: 20px;
+            }
+
+            .feature-card h3 {
+                color: #333;
+                margin-bottom: 15px;
+            }
+
+            .feature-card p {
+                color: #666;
+                line-height: 1.6;
+            }
+        </style>
     </main>
 </div>
